@@ -34,13 +34,20 @@ package org.owasp.html;
  * <p>
  * These policies can be used to sanitize content.
  * </p>
+ * 
  * <pre>
- *   Sanitizers.FORMATTING.sanitize({@code "<b>Hello, World!</b>"})
+ *   Sanitizers.FORMATTING.sanitize({@code
+ * "<b>Hello, World!</b>"
+ * })
  * </pre>
+ * 
  * and can be chained
+ * 
  * <pre>
  *   PolicyFactory sanitizer = Sanitizers.FORMATTING.and(Sanitizers.BLOCKS);
- *   System.out.println(sanitizer.sanitize({@code "<p>Hello, <b>World!</b>"}));
+ *   System.out.println(sanitizer.sanitize({@code
+ * "<p>Hello, <b>World!</b>"
+ * }));
  * </pre>
  *
  * <p>
@@ -83,29 +90,33 @@ public final class Sanitizers {
    * Allows common table elements.
    */
   public static final PolicyFactory TABLES = new HtmlPolicyBuilder()
-    .allowStandardUrlProtocols()
-    .allowElements(
-                   "table", "tr", "td", "th",
-                   "colgroup", "caption", "col",
-                   "thead", "tbody", "tfoot")
-    .allowAttributes("summary").onElements("table")
-    .allowAttributes("align", "valign")
-    .onElements("table", "tr", "td", "th",
-                "colgroup", "col",
-                "thead", "tbody", "tfoot")
-    .allowTextIn("table")  // WIDGY
-    .toFactory();
+      .allowStandardUrlProtocols()
+      .allowElements(
+          "table", "tr", "td", "th",
+          "colgroup", "caption", "col",
+          "thead", "tbody", "tfoot")
+      .allowAttributes("summary").onElements("table")
+      .allowAttributes("align", "valign")
+      .onElements("table", "tr", "td", "th",
+          "colgroup", "col",
+          "thead", "tbody", "tfoot")
+      .allowTextIn("table") // WIDGY
+      .toFactory();
 
   private static final AttributePolicy INTEGER = new AttributePolicy() {
     public String apply(
         String elementName, String attributeName, String value) {
       int n = value.length();
-      if (n == 0) { return null; }
+      if (n == 0) {
+        return null;
+      }
       for (int i = 0; i < n; ++i) {
         char ch = value.charAt(i);
         if (ch == '.') {
-          if (i == 0) { return null; }
-          return value.substring(0, i);  // truncate to integer.
+          if (i == 0) {
+            return null;
+          }
+          return value.substring(0, i); // truncate to integer.
         } else if (!('0' <= ch && ch <= '9')) {
           return null;
         }
@@ -121,7 +132,7 @@ public final class Sanitizers {
       .allowUrlProtocols("http", "https").allowElements("img")
       .allowAttributes("alt", "src").onElements("img")
       .allowAttributes("border", "height", "width").matching(INTEGER)
-          .onElements("img")
+      .onElements("img")
       .toFactory();
 
   private Sanitizers() {
