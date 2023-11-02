@@ -12,8 +12,8 @@
 
 ## Directories containing sample inputs for the code under test.
 ## See https://llvm.org/docs/LibFuzzer.html#corpus
-seed-corpus-dirs:
- - ./seed_
+# seed-corpus-dirs:
+#  - path/to/seed
 
 ## A file containing input language keywords or other interesting byte
 ## sequences.
